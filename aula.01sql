@@ -1,0 +1,64 @@
+
+CREATE TABLE CLIENTE 
+( 
+ cd_cpf INT PRIMARY KEY,  
+ nm_cliente VARCHAR(n) NOT NULL,  
+ dt_nascimento DATE NOT NULL,  
+); 
+
+CREATE TABLE SESSAO 
+( 
+ dt_assistido DATE PRIMARY KEY,  
+ idFILME INT,  
+ idCLIENTE INT,  
+); 
+
+CREATE TABLE FILME 
+( 
+ cd_filme INT PRIMARY KEY,  
+ nm_genero VARCHAR(n) DEFAULT 'TERROR',  
+ nm_filme VARCHAR(n) NOT NULL,  
+); 
+
+ALTER TABLE SESSAO ADD FOREIGN KEY(idFILME) REFERENCES FILME (idFILME)
+ALTER TABLE SESSAO ADD FOREIGN KEY(idCLIENTE) REFERENCES CLIENTE (idCLIENTE)
+
+-----------------------------------------------------------------
+AULA REVISÃO  - BANCO DE DADOS RELACINAL - 09.08.2023
+
+--DDL CREATE TABLE - CRIAR TABELA
+CREATE TABLE filme (  
+  cd_filme INTEGER PRIMARY KEY, nm_genero VARCHAR(40) default 'TERROR',
+  nm_filme VARCHAR(40) NOT NULL
+)
+--exibir estrutura da tabela - desc 
+DESC filme
+-- dml insert into - inserir registro 
+-- implicito - valor para todas as colunas da tabela 
+INSERT INTO  filme VALUES (1,'BESTEIROL','BARBIE')
+INSERT INTO filme VALUES (2,'TERROR', 'JOGOS MORTAIS' )
+--explicito - vc diz as colunas que terao valor, (obrigatorio pk e not null)
+INSERT INTO filme (cd_filme, nm_filme) VALUES (3,'HALOWEEN')
+SELECT * FROM filme
+
+CREATE TABLE cliente 
+    (cd_cpf NUMERIC(11) PRIMARY KEY, nm_cliente VARCHAR(30) NOT NULL, dt_nascimento DATE
+)
+DESC cliente
+INSERT INTO cliente VALUES (123455667,'Leonardo', TO_DATE ('14/08/1960','DD/MM/YYYY'))
+INSERT INTO cliente VALUES (124588544,'Gabriela', TO_DATE ('06/07/1995','DD/MM/YYYY'))
+SELECT * FROM cliente 
+
+CREATE TABLE sessao (dt_sessao DATE,cd_filme INTEGER, cd_cliente NUMERIC(11)) 
+desc sessao
+
+-- ddl alter table -  aterar a tableta sessao bacrescentando uma intergridade referenciaL 
+--RELACUIONAMENTO ENTRE TABELA FORTE E TABELA FRACA 
+
+ALTER TABLE sessao ADD CONSTRAINT sessao_cliente_fk FOREIGN KEY (cd_cliente)
+REFERENCES cliente (cd_cpf)
+
+ 
+
+ALTER TABLE sessao ADD CONSTRAINT sessao_filme_fk PRIMARY KEY (dt_sessao, cd_filme, cd_cliente)
+REFERENCES filme (cd_filme)
